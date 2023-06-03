@@ -112,7 +112,7 @@ const login = (req, res, next) => {
           // создаём токен
           const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
           // вернём токен клиенту
-          return res.send(token);
+          return res.send({ token });
         });
     })
     .catch(next);
