@@ -133,12 +133,7 @@ export class Api {
 
 }
 
-const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-60',
-  token: '5ade358d-5f88-408c-b48d-f9edcc6552b1'
-});
-
-export default api;
+export default Api;
 
 
 

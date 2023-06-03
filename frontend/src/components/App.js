@@ -4,7 +4,7 @@ import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
-import api from '../utils/Api.js';
+import Api from '../utils/Api.js';
 import { CurrentUserContext } from '../contextst/currentUserContext.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
@@ -48,6 +48,14 @@ function App() {
 
   // стейт для карточек
   const [cards, setCards] = React.useState([]);
+
+  // объект класса Api
+  const api = new Api({
+    baseUrl: 'https://mesto.frontend.nomoredomains.rocks',
+    token: localStorage.getItem('token'),
+    // baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-60',
+    // token: '5ade358d-5f88-408c-b48d-f9edcc6552b1'
+  });
 
   // useEffect для проверки токена
   useEffect(() => {
