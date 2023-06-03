@@ -7,6 +7,7 @@ const auth = require('./middlewares/auth');
 const { loginJoi, createUserJoi } = require('./middlewares/celebrate');
 const { PORT, DB_URI } = require('./config');
 const centralCatchErrors = require('./middlewares/centralCatchErrors');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 
@@ -24,6 +25,8 @@ mongoose.connect(DB_URI)
 
 app.use(express.json()); // Для парсинга тела запроса в формате JSON
 
+app.use(requestLogger); // подключаем логгер запросов (до всех обработчиков запросов)
+
 app.post('/signin', loginJoi, login);
 app.post('/signup', createUserJoi, createUser);
 
@@ -32,6 +35,8 @@ app.use(auth);
 
 // подключение всех роутов
 app.use(routes);
+
+app.use(errorLogger); // подключаем логгер ошибок (до всех обработчиков ошибок)
 
 // обработчик ошибок celebrate
 app.use(errors());
