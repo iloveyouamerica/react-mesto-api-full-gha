@@ -124,7 +124,7 @@ const login = (req, res, next) => {
 };
 
 // получаем информацию о текущем пользователе
-/* const getUserInfo = (req, res, next) => {
+const getUserInfo = (req, res, next) => {
   // console.log('getUserInfo');
   // console.log(req.user._id);
   User.findById(req.user._id)
@@ -133,8 +133,8 @@ const login = (req, res, next) => {
       res.send(user); // res.send(user);
     })
     .catch(next);
-}; */
-const getUserInfo = (req, res, next) => {
+};
+/* const getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       console.log(`Сервер->getUserInfo: ${user}`);
@@ -142,7 +142,7 @@ const getUserInfo = (req, res, next) => {
       res.send(JSON.stringify(user));
     })
     .catch(next);
-};
+}; */
 
 module.exports = {
   getUsers,
