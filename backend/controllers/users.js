@@ -9,6 +9,7 @@ const AuthError = require('../errors/AuthError');
 
 // получение всех пользователей
 const getUsers = (req, res, next) => {
+  // console.log('getUsers');
   User.find({})
     .then((users) => res.send(users))
     .catch(next);
@@ -16,6 +17,7 @@ const getUsers = (req, res, next) => {
 
 // получение конкретного пользователя по _id
 const getUserById = (req, res, next) => {
+  // console.log('getUserById');
   const { userId } = req.params;
   User.findById(userId)
     .then((user) => res.send(user))
@@ -60,6 +62,7 @@ const createUser = (req, res, next) => {
 
 // редактирование профиля пользователя
 const editProfile = (req, res, next) => {
+  // console.log('editProfile');
   const { name, about } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((updateUser) => res.send(updateUser))
@@ -78,6 +81,7 @@ const editProfile = (req, res, next) => {
 
 // редактирование аватара пользователя
 const editAvatar = (req, res, next) => {
+  // console.log('editAvatar');
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => res.send(user))
@@ -96,6 +100,7 @@ const editAvatar = (req, res, next) => {
 
 // контроллер login
 const login = (req, res, next) => {
+  // console.log('login');
   const { email, password } = req.body;
 
   // поиск пользователя по email
@@ -112,7 +117,7 @@ const login = (req, res, next) => {
           // создаём токен
           const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
           // вернём токен клиенту
-          return res.send({ token });
+          return res.json({ token });
         });
     })
     .catch(next);
@@ -120,6 +125,8 @@ const login = (req, res, next) => {
 
 // получаем информацию о текущем пользователе
 const getUserInfo = (req, res, next) => {
+  // console.log('getUserInfo');
+  // console.log(req.user._id);
   User.findById(req.user._id)
     .then((user) => {
       res.send(user);

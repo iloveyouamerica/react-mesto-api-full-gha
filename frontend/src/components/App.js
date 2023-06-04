@@ -236,7 +236,7 @@ function App() {
     // вызываем функцию авторизации
     mestoAuth.authorize(email, password)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         localStorage.setItem('token', data.token);
         setLoggedIn(true);
         navigate('/', {replace: true});
