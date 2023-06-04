@@ -104,8 +104,6 @@ export class Api {
 
   // метод для добавление и удаления лайка карточки (2 в 1), путь: https://mesto.nomoreparties.co/v1/cohortId/cards/cardId/likes
   changeLikeCardStatus(cardId, isLiked) {
-    /* const x = isLiked ? 'DELETE' : 'PUT';
-    console.log(x); */
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: isLiked ? 'DELETE' : 'PUT',
       headers: {
@@ -135,7 +133,7 @@ export class Api {
 
 const api = new Api({
   baseUrl: 'http://localhost:3001',
-  token: `Bearer ${localStorage.getItem('jwt')}`,
+  token: `Bearer ${localStorage.getItem('token')}`,
   /* baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-60',
   token: '5ade358d-5f88-408c-b48d-f9edcc6552b1' */
 });

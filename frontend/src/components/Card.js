@@ -26,11 +26,13 @@ function Card(card) {
   //console.log(currentUser);
 
   // определим, являемся ли мы владельцем текущей карточки
-  const isOwn = card.owner._id === currentUser._id; //(card получили из props, currentUser - контекст)
+  //const isOwn = card.owner._id === currentUser._id; //(card получили из props, currentUser - контекст)
+  const isOwn = card.owner === currentUser._id; //(card получили из props, currentUser - контекст)
   //console.log(card.owner._id);
 
   // определяем есть ли лайк у карточки, поставленный текущим пользователем
-  const isLiked = card.likes.some(i => i._id === currentUser._id);
+  // const isLiked = card.likes.some(i => i._id === currentUser._id);
+  const isLiked = card.likes.some(i => i === currentUser._id);
 
   // создаём переменную, которую передадим в className кнопки лайка
   const cardLikeButtonClassName = `card__like ${isLiked && 'card__like_active'}`;

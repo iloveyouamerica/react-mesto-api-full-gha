@@ -53,15 +53,13 @@ function App() {
   useEffect(() => {
     // если у пользователя в localStorage есть токен, то проверим действующий он или нет
     const token = localStorage.getItem('token');
-    //console.log(`token: ${token}`);
     if(token) {
-      //console.log(`token: ${token}`);
       mestoAuth.checkToken(token)
-        .then((res) => { // res содержит поле объект data, в котором есть поля _id и email
+        .then((res) => { // res содержит поля _id и email
           //console.log(res);
           setLoggedIn(true);
           navigate("/mesto", {replace: true});
-          setUserEmail(res.data.email);
+          setUserEmail(res.email);
           //console.log(userEmail);
         })
         .catch(err => console.log(err));
@@ -73,23 +71,15 @@ function App() {
     if(loggedIn) {
       api.getUserInfo() // запрос на получение информации о пользователе
         .then((userInfo) => {
-          //console.log(userInfo, "API");
-          setCurrentUser(userInfo);
-          //console.log(currentUser);
+          setCurrentUser(userInfo); // это промис
         })
         .catch((err) => {
           console.log(err);
         });
-    }
-  }, [loggedIn]);
 
-// создаём эффект первичного монтирования карточек
-  useEffect(() => {
-    if(loggedIn) {
       api.getCards() // запрос на получение карточек
         .then((dataCards) => {
-          //console.log(dataCards);
-          setCards(dataCards.map((item) => ({
+          setCards(dataCards.reverse().map((item) => ({
             _id: item._id,
             name: item.name,
             link: item.link,
@@ -131,12 +121,13 @@ function App() {
   // обработчик лайка карточки
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
-    //console.log(card.id); // id = ...a811
+    //const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
     
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api.changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => { // newCard - затронутая карточка
+        // console.log(`App.js: ответ сервера после лайка ${JSON.stringify(newCard)}`);
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c)); //state - это первичный массив карточек
       })
       .catch((err) => {

@@ -127,20 +127,10 @@ const login = (req, res, next) => {
 const getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
-      // console.log(`Сервер->getUserInfo: ${user}`);
       res.send(user);
     })
     .catch(next);
 };
-/* const getUserInfo = (req, res, next) => {
-  User.findById(req.user._id)
-    .then((user) => {
-      console.log(`Сервер->getUserInfo: ${user}`);
-      res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify(user));
-    })
-    .catch(next);
-}; */
 
 module.exports = {
   getUsers,
