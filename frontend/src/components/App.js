@@ -66,7 +66,7 @@ function App() {
       //console.log(`token: ${token}`);
       mestoAuth.checkToken(token)
         .then((res) => { // res содержит поле объект data, в котором есть поля _id и email
-          console.log(`App.js checkToken = ${res.email}`);
+          // console.log(`App.js checkToken = ${res.email}`);
           setLoggedIn(true);
           navigate("/mesto", {replace: true});
           setUserEmail(res.email); // setUserEmail(res.data.email);
@@ -79,9 +79,9 @@ function App() {
   //создаём эффект при измении loggedIn (если пользователь авторизуется)
   useEffect(() => {
     if(loggedIn) {
-      api.getUserInfo() // запрос на получение информации о пользователе
+      api.getUserInfo() // (получ.результ. в формате json /users/me)
         .then((userInfo) => {
-          console.log(`App.js getUserInfo = ${userInfo}`);
+          // console.log(`App.js getUserInfo = ${userInfo}`);
           setCurrentUser(userInfo);
         })
         .catch((err) => {
