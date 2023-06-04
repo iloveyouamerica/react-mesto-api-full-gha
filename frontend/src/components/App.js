@@ -81,7 +81,7 @@ function App() {
     if(loggedIn) {
       api.getUserInfo() // (получ.результ. в формате json /users/me)
         .then((userInfo) => {
-          console.log(`App.js getUserInfo = ${userInfo}`);
+          console.log(`App.js getUserInfo = ${JSON.stringify(userInfo)}`);
           setCurrentUser(userInfo);
         })
         .catch((err) => {
@@ -95,7 +95,7 @@ function App() {
     if(loggedIn) {
       api.getCards() // запрос на получение карточек
         .then((dataCards) => {
-          //console.log(dataCards);
+          console.log(`App.js запрос на карточки: ${dataCards}`);
           setCards(dataCards.map((item) => ({
             _id: item._id,
             name: item.name,
