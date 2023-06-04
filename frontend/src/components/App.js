@@ -140,7 +140,7 @@ function App() {
     // отправим запрос в api на удаление карточки и получим ответ сервера - обновлённый список карточек
     api.deleteCard(card._id)
       .then(() => {
-        setCards(cards.filter((c) => c._id != card._id)); // обновляем стейт cards, удаляя из нового массива нужную карточку
+        setCards(cards.filter((c) => c._id !== card._id)); // обновляем стейт cards, удаляя из нового массива нужную карточку
       })
       .catch((err) => {
         console.log(err);
@@ -214,7 +214,6 @@ function App() {
 
   // обработчик для авторизации пользователя
   function handleLogin(email, password) {
-    //console.log(`App.js ${email}, ${password}`);
 
     // вызываем функцию авторизации
     mestoAuth.authorize(email, password)
@@ -222,7 +221,7 @@ function App() {
         //console.log(data);
         localStorage.setItem('token', data.token);
         setLoggedIn(true);
-        navigate('/', {replace: true});
+        navigate('/mesto', {replace: true});
       })
       .catch((err) => {
         console.log(err);
