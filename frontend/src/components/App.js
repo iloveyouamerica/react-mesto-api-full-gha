@@ -66,7 +66,7 @@ function App() {
       //console.log(`token: ${token}`);
       mestoAuth.checkToken(token)
         .then((res) => { // res содержит поле объект data, в котором есть поля _id и email
-          //console.log(res);
+          console.log(`App.js checkToken = ${res}`);
           setLoggedIn(true);
           navigate("/mesto", {replace: true});
           setUserEmail(res.data.email);
@@ -81,9 +81,8 @@ function App() {
     if(loggedIn) {
       api.getUserInfo() // запрос на получение информации о пользователе
         .then((userInfo) => {
-          //console.log(userInfo, "API");
+          console.log(`App.js getUserInfo = ${userInfo}`);
           setCurrentUser(userInfo);
-          //console.log(currentUser);
         })
         .catch((err) => {
           console.log(err);
