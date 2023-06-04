@@ -66,10 +66,10 @@ function App() {
       //console.log(`token: ${token}`);
       mestoAuth.checkToken(token)
         .then((res) => { // res содержит поле объект data, в котором есть поля _id и email
-          console.log(`App.js checkToken = ${res}`);
+          console.log(`App.js checkToken = ${res.email}`);
           setLoggedIn(true);
           navigate("/mesto", {replace: true});
-          setUserEmail(res.data.email);
+          setUserEmail(res.email); // setUserEmail(res.data.email);
           //console.log(userEmail);
         })
         .catch(err => console.log(err));

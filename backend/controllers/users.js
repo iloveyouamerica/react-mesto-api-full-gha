@@ -129,6 +129,7 @@ const getUserInfo = (req, res, next) => {
   // console.log(req.user._id);
   User.findById(req.user._id)
     .then((user) => {
+      console.log(`Сервер->getUserInfo: ${user}`);
       res.send(user);
     })
     .catch(next);

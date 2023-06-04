@@ -71,7 +71,7 @@ export function checkToken(token) {
     }
   })
     .then((res) => {
-      //console.log(res);
+      console.log(`mestAuth->checkToken: ${res}`);
       if(res.ok) {
         return res.json();
       } else if(res.status === '400') {
