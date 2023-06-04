@@ -3,8 +3,8 @@
 import { toHaveErrorMessage } from "@testing-library/jest-dom/dist/matchers";
 
 // базовый URL сервера для авторизации пользователя
-// const baseUrl = "https://auth.nomoreparties.co";
-const baseUrl = "https://api.mesto.frontend.nomoredomains.rocks";
+//const baseUrl = "https://auth.nomoreparties.co";
+const baseUrl = 'http://localhost:3001';
 
 // функция проверки ответа сервера
 function checkResponse(res) {
@@ -29,7 +29,7 @@ export function register(email, password) {
       //return checkResponse(res);
       if(res.ok) {
         return res.json();
-      } else if(res.status === '400') {
+      } else if(res.status == '400') {
         return Promise.reject(new Error("ошибка 400 - некорректно заполнено одно из полей "));
       }
       return Promise.reject(new Error("Ошибка регистрации"));
@@ -50,9 +50,9 @@ export function authorize(email, password) {
       //return checkResponse(res);
       if(res.ok) {
         return res.json();
-      } else if(res.status === '400') {
+      } else if(res.status == '400') {
         return Promise.reject(new Error("ошибка 400 - не передано одно из полей"));
-      } else if(res.status === '401') {
+      } else if(res.status == '401') {
         return Promise.reject(new Error("ошибка 401 - пользователь с email не найден"));
       }
       // в ином случае
@@ -71,12 +71,12 @@ export function checkToken(token) {
     }
   })
     .then((res) => {
-      console.log(`mestAuth->checkToken: ${JSON.stringify(res)}`);
+      //console.log(res);
       if(res.ok) {
         return res.json();
-      } else if(res.status === '400') {
+      } else if(res.status == '400') {
         return Promise.reject(new Error("ошибка 400 — Токен не передан или передан не в том формате"));
-      } else if(res.status === '401') {
+      } else if(res.status == '401') {
         return Promise.reject(new Error("ошибка 401 — Переданный токен некорректен"));
       }
       return Promise.reject(new Error("Ошибка аутентификации"));

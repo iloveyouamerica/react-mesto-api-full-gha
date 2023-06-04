@@ -8,9 +8,7 @@ export class Api {
   // метод обработки результата ответа сервера
   _checkResponse(res) {
     if(res.ok) {
-      console.log(`Api _checkResponse res = ${JSON.stringify(res)}`);
-      //return res.json();
-      return res;
+      return res.json();
     }
     return Promise.reject(new Error('Произошла ошибка получения данных с сервера'));
   }
@@ -135,7 +133,14 @@ export class Api {
 
 }
 
-export default Api;
+const api = new Api({
+  baseUrl: 'http://localhost:3001',
+  token: `Bearer ${localStorage.getItem('jwt')}`,
+  /* baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-60',
+  token: '5ade358d-5f88-408c-b48d-f9edcc6552b1' */
+});
+
+export default api;
 
 
 

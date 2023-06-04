@@ -4,7 +4,7 @@ import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
-import Api from '../utils/Api.js';
+import api from '../utils/Api.js';
 import { CurrentUserContext } from '../contextst/currentUserContext.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
@@ -49,14 +49,6 @@ function App() {
   // стейт для карточек
   const [cards, setCards] = React.useState([]);
 
-  // объект класса Api
-  const api = new Api({
-    baseUrl: 'https://mesto.frontend.nomoredomains.rocks',
-    token: localStorage.getItem('token'),
-    // baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-60',
-    // token: '5ade358d-5f88-408c-b48d-f9edcc6552b1'
-  });
-
   // useEffect для проверки токена
   useEffect(() => {
     // если у пользователя в localStorage есть токен, то проверим действующий он или нет
@@ -66,10 +58,10 @@ function App() {
       //console.log(`token: ${token}`);
       mestoAuth.checkToken(token)
         .then((res) => { // res содержит поле объект data, в котором есть поля _id и email
-          // console.log(`App.js checkToken = ${res.email}`);
+          //console.log(res);
           setLoggedIn(true);
           navigate("/mesto", {replace: true});
-          setUserEmail(res.email); // setUserEmail(res.data.email);
+          setUserEmail(res.data.email);
           //console.log(userEmail);
         })
         .catch(err => console.log(err));
@@ -79,13 +71,14 @@ function App() {
   //создаём эффект при измении loggedIn (если пользователь авторизуется)
   useEffect(() => {
     if(loggedIn) {
-      api.getUserInfo() // (получ.результ. в формате json /users/me)
+      api.getUserInfo() // запрос на получение информации о пользователе
         .then((userInfo) => {
-          console.log(`App.js getUserInfo = ${JSON.stringify(userInfo)}`);
+          //console.log(userInfo, "API");
           setCurrentUser(userInfo);
+          //console.log(currentUser);
         })
         .catch((err) => {
-          console.log(`App.js ошибка после авторизации пользователя: ${err}`);
+          console.log(err);
         });
     }
   }, [loggedIn]);
@@ -95,7 +88,7 @@ function App() {
     if(loggedIn) {
       api.getCards() // запрос на получение карточек
         .then((dataCards) => {
-          console.log(`App.js запрос на карточки: ${dataCards}`);
+          //console.log(dataCards);
           setCards(dataCards.map((item) => ({
             _id: item._id,
             name: item.name,
@@ -235,7 +228,7 @@ function App() {
     // вызываем функцию авторизации
     mestoAuth.authorize(email, password)
       .then((data) => {
-        // console.log(data);
+        //console.log(data);
         localStorage.setItem('token', data.token);
         setLoggedIn(true);
         navigate('/', {replace: true});

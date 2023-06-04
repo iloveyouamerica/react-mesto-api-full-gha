@@ -5,14 +5,14 @@ const AuthError = require('../errors/AuthError');
 module.exports = (req, res, next) => {
   // дастаём авторизационный заголовок
   const { authorization } = req.headers;
-  // console.log(authorization);
+  // console.log(`Это переменная authorization из req.headers = ${authorization}`);
 
   // проверим что заголовок есть или начинается с Bearer
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    return next(new AuthError('Необходима авторизация'));
+    return next(new AuthError('Нужно авторизоваться'));
   }
 
-  // достаём токен и метожем replace отсекаем приставку Bearer
+  // достаём токен и методом replace отсекаем приставку Bearer
   const token = authorization.replace('Bearer ', '');
   // console.log(`token = ${token}`);
   let payload;

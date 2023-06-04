@@ -117,7 +117,7 @@ const login = (req, res, next) => {
           // создаём токен
           const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
           // вернём токен клиенту
-          return res.json({ token });
+          return res.send({ token });
         });
     })
     .catch(next);
@@ -125,12 +125,10 @@ const login = (req, res, next) => {
 
 // получаем информацию о текущем пользователе
 const getUserInfo = (req, res, next) => {
-  // console.log('getUserInfo');
-  // console.log(req.user._id);
   User.findById(req.user._id)
     .then((user) => {
-      console.log(`Сервер->getUserInfo: ${user}`);
-      res.send(user); // res.send(user);
+      // console.log(`Сервер->getUserInfo: ${user}`);
+      res.send(user);
     })
     .catch(next);
 };
