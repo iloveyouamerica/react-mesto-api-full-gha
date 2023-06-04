@@ -81,11 +81,11 @@ function App() {
     if(loggedIn) {
       api.getUserInfo() // (получ.результ. в формате json /users/me)
         .then((userInfo) => {
-          // console.log(`App.js getUserInfo = ${userInfo}`);
+          console.log(`App.js getUserInfo = ${userInfo}`);
           setCurrentUser(userInfo);
         })
         .catch((err) => {
-          console.log(err);
+          console.log(`App.js ошибка после авторизации пользователя: ${err}`);
         });
     }
   }, [loggedIn]);

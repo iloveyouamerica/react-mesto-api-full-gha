@@ -8,6 +8,7 @@ export class Api {
   // метод обработки результата ответа сервера
   _checkResponse(res) {
     if(res.ok) {
+      console.log(`Api _checkResponse res = ${res}`);
       return res.json();
     }
     return Promise.reject(new Error('Произошла ошибка получения данных с сервера'));
