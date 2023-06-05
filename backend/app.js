@@ -9,7 +9,7 @@ const centralCatchErrors = require('./middlewares/centralCatchErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 
 const app = express();
 
@@ -29,6 +29,13 @@ app.use(express.json()); // Для парсинга тела запроса в �
 
 app.use(requestLogger); // подключаем логгер запросов (до всех обработчиков запросов)
 app.use(cors); // подключаем middleware CORS для проверки источников (доменов)
+
+// краш-тест для ревью
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signin', loginJoi, login);
 app.post('/signup', createUserJoi, createUser);

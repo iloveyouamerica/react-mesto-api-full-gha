@@ -127,7 +127,7 @@ export class Api {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: this._token,
+        'authorization': `Bearer ${localStorage.getItem('token')}`, // фиксил баг, так работает
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -140,7 +140,8 @@ export class Api {
 }
 
 const api = new Api({
-  baseUrl: 'http://localhost:3001',
+  //baseUrl: 'http://localhost:3001', // на сервер
+  baseUrl: 'https://api.mesto.frontend.nomoredomains.rocks', // на сервер
   token: `Bearer ${localStorage.getItem('token')}`,
   /* baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-60',
   token: '5ade358d-5f88-408c-b48d-f9edcc6552b1' */

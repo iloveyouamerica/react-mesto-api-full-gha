@@ -4,7 +4,8 @@ import { toHaveErrorMessage } from "@testing-library/jest-dom/dist/matchers";
 
 // базовый URL сервера для авторизации пользователя
 //const baseUrl = "https://auth.nomoreparties.co";
-const baseUrl = 'http://localhost:3001';
+// const baseUrl = 'http://localhost:3001';
+const baseUrl = 'https://api.mesto.frontend.nomoredomains.rocks';
 
 // функция проверки ответа сервера
 function checkResponse(res) {
