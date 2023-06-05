@@ -5,10 +5,11 @@ const routes = require('./routes/index');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { loginJoi, createUserJoi } = require('./middlewares/celebrate');
-const { PORT, DB_URI } = require('./config');
 const centralCatchErrors = require('./middlewares/centralCatchErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
+
+const { PORT = 3001 } = process.env;
 
 const app = express();
 
@@ -16,7 +17,7 @@ const app = express();
 app.disable('x-powered-by');
 
 // подключаемся к серверу mongo и к базе данных
-mongoose.connect(DB_URI)
+mongoose.connect('mongodb://127.0.0.1:27017/mestodb')
   .then(() => {
     console.log('Соединение с базой данных `mestobd` установлено!');
   })

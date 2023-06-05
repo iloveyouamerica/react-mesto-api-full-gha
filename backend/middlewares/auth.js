@@ -1,6 +1,9 @@
 // миддлвэр auth
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const AuthError = require('../errors/AuthError');
+
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports = (req, res, next) => {
   // дастаём авторизационный заголовок
@@ -19,7 +22,7 @@ module.exports = (req, res, next) => {
 
   try {
     // верифицируем токен
-    payload = jwt.verify(token, '29d38dfea51ea2f6ea9744e84ac2a850bce2a9ec7a9cd77bf5c27dde09093f6d');
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
   } catch (err) {
     return next(new AuthError('Необходима авторизация'));
   }

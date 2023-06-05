@@ -1,4 +1,5 @@
 // контроллеры пользователя
+require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -102,6 +103,7 @@ const editAvatar = (req, res, next) => {
 const login = (req, res, next) => {
   // console.log('login');
   const { email, password } = req.body;
+  const { NODE_ENV, JWT_SECRET } = process.env;
 
   // поиск пользователя по email
   User.findOne({ email }).select('+password') // здесь хэш пароля нужен, поэтому select('+password')
@@ -115,7 +117,7 @@ const login = (req, res, next) => {
             return next(new AuthError('Неверный email или пароль'));
           }
           // создаём токен
-          const token = jwt.sign({ _id: user._id }, '29d38dfea51ea2f6ea9744e84ac2a850bce2a9ec7a9cd77bf5c27dde09093f6d', { expiresIn: '7d' });
+          const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
           // вернём токен клиенту
           return res.send({ token });
         });
