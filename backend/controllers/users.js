@@ -18,6 +18,19 @@ const getUsers = (req, res, next) => {
 
 // получение конкретного пользователя по _id
 const getUserById = (req, res, next) => {
+  const { userId } = req.params;
+  User.findById(userId)
+    .orFail(new NotFoundError('Пользователь с таким id не найден'))
+    .then((user) => res.send(user))
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        return next(new RequestError('Передан некорректный id пользователя'));
+      }
+      return next(err);
+    });
+};
+
+/* const getUserById = (req, res, next) => {
   // console.log('getUserById');
   const { userId } = req.params;
   User.findById(userId)
@@ -31,7 +44,7 @@ const getUserById = (req, res, next) => {
       }
       return next(err);
     });
-};
+}; */
 
 // добавление нового пользователя
 const createUser = (req, res, next) => {
@@ -63,18 +76,13 @@ const createUser = (req, res, next) => {
 
 // редактирование профиля пользователя
 const editProfile = (req, res, next) => {
-  // console.log('editProfile');
   const { name, about } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
+    .orFail(new NotFoundError('Пользователь с таким id не найден'))
     .then((updateUser) => res.send(updateUser))
     .catch((err) => {
-      if (err.name === 'NotFoundError') {
-        if (err.name === 'DocumentNotFoundError') {
-          return next(new NotFoundError('Пользователь с таким id не найден'));
-        }
-        if (err.name === 'CastError') {
-          return next(new RequestError('Переданы некорректные данные'));
-        }
+      if (err.name === 'CastError') {
+        return next(new RequestError('Переданы некорректные данные'));
       }
       return next(err);
     });
@@ -82,18 +90,13 @@ const editProfile = (req, res, next) => {
 
 // редактирование аватара пользователя
 const editAvatar = (req, res, next) => {
-  // console.log('editAvatar');
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
+    .orFail(new NotFoundError('Пользователь с таким id не найден'))
     .then((user) => res.send(user))
     .catch((err) => {
-      if (err.name === 'NotFoundError') {
-        if (err.name === 'DocumentNotFoundError') {
-          return next(new NotFoundError('Пользователь с таким id не найден'));
-        }
-        if (err.name === 'CastError') {
-          return next(new RequestError('Переданы некорректные данные'));
-        }
+      if (err.name === 'CastError') {
+        return next(new RequestError('Переданы некорректные данные'));
       }
       return next(err);
     });

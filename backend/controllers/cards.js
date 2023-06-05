@@ -25,17 +25,15 @@ const deleteCard = (req, res, next) => {
   const userId = req.user._id; // текущий авторизованный пользователь
   const { cardId } = req.params;
   Card.findById(cardId)
+    .orFail(new NotFoundError('Карточка с таким id не найдена'))
     .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Карточка с таким id не найдена');
-      }
       if (card.owner.toString() !== userId) {
         throw new ForbiddenError('Удалить эту карточку может только автор');
       }
-      return card;
+      return Card.deleteOne({ _id: card._id })
+        .then(() => card); // Возвращаем удаленную карточку
     })
-    .then((card) => Card.deleteOne({ _id: card._id }))
-    .then((card) => res.status(200).send(card))
+    .then((deletedCard) => res.status(200).send(deletedCard))
     .catch((err) => {
       if (err.name === 'CastError') {
         return next(new RequestError('Неверный id карточки'));
@@ -49,11 +47,9 @@ const likeCard = (req, res, next) => {
   const { cardId } = req.params;
   const userId = req.user._id;
   Card.findByIdAndUpdate(cardId, { $addToSet: { likes: userId } }, { new: true })
+    .orFail(new NotFoundError('Карточка с таким id не найдена'))
     .then((updateCard) => res.status(200).send(updateCard))
     .catch((err) => {
-      if (err.name === 'DocumentNotFoundError') {
-        return next(new NotFoundError('Карточка с таким id не найдена'));
-      }
       if (err.name === 'CastError') {
         return next(new RequestError('Передан некорректный id карточки'));
       }
@@ -66,11 +62,9 @@ const dislikeCard = (req, res, next) => {
   const { cardId } = req.params;
   const userId = req.user._id;
   Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true })
+    .orFail(new NotFoundError('Карточка с таким id не найдена'))
     .then((updateCard) => res.status(200).send(updateCard))
     .catch((err) => {
-      if (err.name === 'DocumentNotFoundError') {
-        return next(new NotFoundError('Карточка с таким id не найдена'));
-      }
       if (err.name === 'CastError') {
         return next(new RequestError('Передан некорректный id карточки'));
       }
