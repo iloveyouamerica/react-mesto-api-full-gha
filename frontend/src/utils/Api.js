@@ -17,8 +17,12 @@ export class Api {
   getUserInfo() {
     // создаём запрос на сервер для получения информации о пользователе, которая хранится на сервере
     return fetch(`${this._baseUrl}/users/me`, {
-      headers: {
+      /* headers: {
         authorization: this._token
+      } */
+      headers: {
+        'authorization': `Bearer ${localStorage.getItem('token')}`, // фиксил баг, так работает
+        'Content-Type': 'application/json'
       }
     })
       .then(this._checkResponse);
@@ -27,8 +31,12 @@ export class Api {
   // метод получения карточек с сервера
   getCards() {
     return fetch(`${this._baseUrl}/cards`, {
-      headers: {
+      /* headers: {
         authorization: this._token
+      } */
+      headers: {
+        'authorization': `Bearer ${localStorage.getItem('token')}`, // фиксил баг, так работает
+        'Content-Type': 'application/json'
       }
     })
       .then(this._checkResponse);
@@ -39,7 +47,7 @@ export class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
-        authorization: this._token,
+        'authorization': `Bearer ${localStorage.getItem('token')}`, // фиксил баг, так работает
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -55,7 +63,7 @@ export class Api {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {
-        authorization: this._token,
+        'authorization': `Bearer ${localStorage.getItem('token')}`, // фиксил баг, так работает
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -71,7 +79,7 @@ export class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: {
-        authorization: this._token,
+        'authorization': `Bearer ${localStorage.getItem('token')}`, // фиксил баг, так работает
         'Content-Type': 'application/json'
       }
     })
@@ -83,7 +91,7 @@ export class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: 'PUT',
       headers: {
-        authorization: this._token,
+        'authorization': `Bearer ${localStorage.getItem('token')}`, // фиксил баг, так работает
         'Content-Type': 'application/json'
       }
     })
@@ -95,7 +103,7 @@ export class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: {
-        authorization: this._token,
+        'authorization': `Bearer ${localStorage.getItem('token')}`, // фиксил баг, так работает
         'Content-Type': 'application/json'
       }
     })
@@ -107,7 +115,7 @@ export class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: isLiked ? 'DELETE' : 'PUT',
       headers: {
-        authorization: this._token,
+        'authorization': `Bearer ${localStorage.getItem('token')}`, // фиксил баг, так работает
         'Content-Type': 'application/json'
       }
     })
@@ -139,23 +147,3 @@ const api = new Api({
 });
 
 export default api;
-
-
-
-
-/* const api = new Api(optionsApi, (data) => {
-  console.log(data);
-});
-api.getUserInfoFromServer(); */
-
-/*
-  class Api {
-    1. берёт данные пользователя с сервера
-    2. берёт карточки с сервера
-    3. отправляет запрос на обновление данных пользователя с сервера
-    4. отправляет запрос на удаление карточек
-    5. отправляет запрос на добавление лайков
-    6. отправляет запрос на снятие лайков
-    7. отправляет запрос на добавление новой карточки на сервер
-  }
-*/

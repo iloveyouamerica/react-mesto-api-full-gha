@@ -69,23 +69,18 @@ function App() {
   //создаём эффект при измении loggedIn (если пользователь авторизуется)
   useEffect(() => {
     if(loggedIn) {
-      api.getUserInfo() // запрос на получение информации о пользователе
-        .then((userInfo) => {
-          setCurrentUser(userInfo); // это промис
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      api.getCards() // запрос на получение карточек
-        .then((dataCards) => {
-          setCards(dataCards.reverse().map((item) => ({
-            _id: item._id,
-            name: item.name,
-            link: item.link,
-            likes: item.likes,
-            owner: item.owner,
-          })));
+      Promise.all([api.getUserInfo(), api.getCards()])
+        .then(([userInfo, dataCards]) => {
+          setCurrentUser(userInfo);
+          setCards(
+            dataCards.reverse().map((item) => ({
+              _id: item._id,
+              name: item.name,
+              link: item.link,
+              likes: item.likes,
+              owner: item.owner,
+            }))
+          );
         })
         .catch((err) => {
           console.log(err);
@@ -286,15 +281,6 @@ function App() {
               <Route path="/sign-in" element={<Login onLogin={handleLogin} />} />
               <Route path="/sign-up" element={<Register onRegister={handleRegister} />} />
             </Routes>
-            {/* <Main 
-              cards={cards}
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={setSelectedCard}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
-              onClose={closeAllPopups} /> */}
           </main>
           <Footer />
           <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />

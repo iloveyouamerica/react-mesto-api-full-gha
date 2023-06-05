@@ -50,9 +50,9 @@ export function authorize(email, password) {
       //return checkResponse(res);
       if(res.ok) {
         return res.json();
-      } else if(res.status == '400') {
+      } else if(res.status === '400') {
         return Promise.reject(new Error("ошибка 400 - не передано одно из полей"));
-      } else if(res.status == '401') {
+      } else if(res.status === '401') {
         return Promise.reject(new Error("ошибка 401 - пользователь с email не найден"));
       }
       // в ином случае
