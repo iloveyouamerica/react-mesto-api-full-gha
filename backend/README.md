@@ -1,7 +1,8 @@
 [![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)
 # Проект Mesto фронтенд + бэкенд
+Это сервер приложения, включающий маршруты для регистрации, авторизаци и доступа после на защищённый роут главной страницы приложения. Сервер генерирует JWT-токен для аутентификации, может обрабатывать такие запросы, как добавление нового пользователя, редактирования личной информации в профиле, обновление аватара, добавление и удаление карточек, а так же снятие и постановка лайка. 
 
-cсылка на репозиторий, господа: https://github.com/iloveyouamerica/express-mesto-gha
+Ссылка на репозиторий, господа: https://github.com/iloveyouamerica/express-mesto-gha
 
 ## Директории
 
