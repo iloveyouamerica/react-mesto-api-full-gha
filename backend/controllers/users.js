@@ -115,7 +115,7 @@ const login = (req, res, next) => {
             return next(new AuthError('Неверный email или пароль'));
           }
           // создаём токен
-          const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
+          const token = jwt.sign({ _id: user._id }, '29d38dfea51ea2f6ea9744e84ac2a850bce2a9ec7a9cd77bf5c27dde09093f6d', { expiresIn: '7d' });
           // вернём токен клиенту
           return res.send({ token });
         });

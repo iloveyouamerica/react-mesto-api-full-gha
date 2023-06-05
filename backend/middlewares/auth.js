@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
 
   try {
     // верифицируем токен
-    payload = jwt.verify(token, 'some-secret-key');
+    payload = jwt.verify(token, '29d38dfea51ea2f6ea9744e84ac2a850bce2a9ec7a9cd77bf5c27dde09093f6d');
   } catch (err) {
     return next(new AuthError('Необходима авторизация'));
   }
